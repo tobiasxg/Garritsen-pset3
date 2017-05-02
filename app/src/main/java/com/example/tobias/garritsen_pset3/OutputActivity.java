@@ -30,7 +30,8 @@ public class OutputActivity extends AppCompatActivity {
 //        viewList = (ListView) findViewById(R.id.);
 
         Bundle extras = getIntent().getExtras();
-        String input = extras.getString("movie");
+        String input = extras.getString("title");
+        viewResults.setText(input);
 //        toAsync(input);
         movieArray = (ArrayList<String>) extras.getSerializable("movies");
     }

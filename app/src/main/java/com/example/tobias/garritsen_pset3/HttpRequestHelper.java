@@ -16,6 +16,7 @@ public class HttpRequestHelper {
     protected static synchronized String downloadFromServer(String... params) {
         String result = "";
         String chosenTag = params[0];
+        chosenTag = chosenTag.replaceAll("\\s", "+");
 
         // maak url met api en zoekterm gebruiker
         //'http://img.omdbapi.com/?i=tt2294629&apikey=95a79eac'
