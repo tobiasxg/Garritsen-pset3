@@ -1,6 +1,7 @@
 package com.example.tobias.garritsen_pset3;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,26 +14,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ListActivity extends AppCompatActivity {
+public class FavoriteMovies extends AppCompatActivity {
 
     ListView viewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_favorite_movies);
 
-        Bundle extras = getIntent().getExtras();
-        String mdata = extras.getString("mdata");
-        ArrayList<String> titlesArray = extras.getStringArrayList("titleList");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, android.R.id.text1, titlesArray);
-
-        viewList = (ListView) findViewById(R.id.moviesList);
+        SharedPreferences prefs = this.getSharedPreferences("settings",this.MODE_PRIVATE);
+        String savedMovie = prefs.getString("movies", "");
+        // put all movies in array by splitting on the separator
+        String[] savedMovies = savedMovie.split("\\*");
+        // add movies to arraylist to display in listview
+        String firstWouldBe = savedMovies[0];
+        ArrayList<String> movies = new ArrayList<>(Arrays.asList(savedMovies));
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, movies);
+//        watchList.setAdapter(adapter);
+        viewList = (ListView) findViewById(R.id.favoritesList);
         assert viewList != null;
-        viewList.setAdapter(arrayAdapter);
+        viewList.setAdapter(adapter);
 
         viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -47,6 +51,7 @@ public class ListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 }

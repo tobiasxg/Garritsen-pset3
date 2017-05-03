@@ -14,15 +14,15 @@ import java.util.ArrayList;
  * Created by Tobias on 20-4-2017.
  */
 
-public class MovieAsyncTask extends AsyncTask<String,Integer,String> {
+public class DetailsAsyncTask extends AsyncTask<String,Integer,String> {
     Context context;
-    MainActivity mainAct;
+    OutputActivity outAct;
 //    OutputActivity resultAct;
 
-    public MovieAsyncTask(MainActivity main) {
+    public DetailsAsyncTask(OutputActivity output) {
 //public MovieAsyncTask(OutputActivity output) {
-        this.mainAct = main;
-        this.context = this.mainAct.getApplicationContext();
+        this.outAct = output;
+        this.context = this.outAct.getApplicationContext();
 //        this.resultAct = output;
 //        this.context = this.resultAct.getApplicationContext();
     }
@@ -34,7 +34,7 @@ public class MovieAsyncTask extends AsyncTask<String,Integer,String> {
 
     @Override
     protected String doInBackground(String... params){
-        return HttpRequestHelper.downloadFromServer("s", params);
+        return HttpRequestHelper.downloadFromServer("t",params);
     }
 
     @Override
@@ -57,40 +57,49 @@ public class MovieAsyncTask extends AsyncTask<String,Integer,String> {
 
         MovieData mdata = null;
         ArrayList<MovieData> mdataList = new ArrayList<MovieData>();
+        String title = "";
+        String posterUrl = "";
+        String year = "";
+        String runtime = "";
+        String actors = "";
+        String plot = "";
 
         try{
-            JSONObject streamObj = new JSONObject(result);
+            JSONObject readObj = new JSONObject(result);
 //            JSONObject currentObj;
 //            for(int i=1; i<movieVariables.size(); i++){
 //                currentObj = streamObj.getJSONObject(movieVariables.get(i));
 //                movieVariables.set(i,currentObj.toString());
 //                singleTitle = streamObj.getJSONObject("Title").toString();
 //            }
-            JSONArray searchArray = streamObj.getJSONArray("Search");
-            int l = searchArray.length();
-            for(int i=0; i<searchArray.length(); i++){
+//            JSONArray searchArray = streamObj.getJSONArray("Search");
+//            int l = searchArray.length();
+//            for(int i=0; i<searchArray.length(); i++){
 //                JSONObject tempJSON = searchArray.getJSONObject(i);
-                JSONObject readObj = searchArray.getJSONObject(i);
+//                JSONObject readObj = streamObj.getJSONObject(result);
 //                String title = tempJSON.getString("Title");
 //                String year = tempJSON.getString("Year");
 //                String id = tempJSON.getString("imdbID");
 //                JSONObject readObj = new JSONObject(result);
 //                String plot = readObj.getString("Plot");
-                String title = readObj.getString("Title");
-                String posterUrl = readObj.getString("Poster");
-                String year = readObj.getString("Year");
+                title = readObj.getString("Title");
+                posterUrl = readObj.getString("Poster");
+                year = readObj.getString("Year");
+                runtime = readObj.getString("Runtime");
+                plot = readObj.getString("Plot");
+                actors = readObj.getString("Actors");
 //                String director = readObj.getString("Director");
 //                String actors = readObj.getString("Actors");
 //                String actors = tempJSON.getString("Actors");
 //                String plot = tempJSON.getString("Plot");
                 movieTitles.add(title);
-//                mdata = new MovieData(title, year, posterUrl);//, actors, plot);
-//                mdataList.add(mdata);
-            }
+                mdata = new MovieData(title, year, posterUrl);//, actors, plot);
+                mdataList.add(mdata);
+//            }
         }catch(JSONException e){
             e.printStackTrace();
         }
-        this.mainAct.movieIntent(movieTitles);//, mdataList);
+        this.outAct.fullDetails(title, posterUrl, year, runtime, plot, actors);
 //        this.resultAct.fillData(movieVariables);
     }
 }

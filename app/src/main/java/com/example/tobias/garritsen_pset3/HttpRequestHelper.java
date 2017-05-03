@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class HttpRequestHelper {
 
-    protected static synchronized String downloadFromServer(String... params) {
+    protected static synchronized String downloadFromServer(String sVSt, String... params) {
         String result = "";
         String chosenTag = params[0];
         chosenTag = chosenTag.replaceAll("\\s", "+");
@@ -21,7 +21,8 @@ public class HttpRequestHelper {
         // maak url met api en zoekterm gebruiker
         //'http://img.omdbapi.com/?i=tt2294629&apikey=95a79eac'
         //String restUrl"&y=&plot=short&r=json";
-        String siteUrl = "http://www.omdbapi.com/?s=";
+        String siteUrl = "http://www.omdbapi.com/?"+sVSt+"=";
+//        String detailsSiteUrl = "http://www.omdbapi.com/?t=";
         String urlComplete = siteUrl + chosenTag;
 
         URL url = null;
