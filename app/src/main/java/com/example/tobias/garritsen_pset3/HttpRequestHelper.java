@@ -20,20 +20,16 @@ public class HttpRequestHelper {
 
         // maak url met api en zoekterm gebruiker
         //'http://img.omdbapi.com/?i=tt2294629&apikey=95a79eac'
-        //String restUrl"&y=&plot=short&r=json";
         String siteUrl = "http://www.omdbapi.com/?"+sVSt+"=";
-//        String detailsSiteUrl = "http://www.omdbapi.com/?t=";
         String urlComplete = siteUrl + chosenTag;
 
         URL url = null;
-
 
         try {
             url = new URL(urlComplete);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
 
         HttpURLConnection connect;
 

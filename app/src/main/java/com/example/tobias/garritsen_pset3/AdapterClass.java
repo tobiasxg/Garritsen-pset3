@@ -30,9 +30,8 @@ public class AdapterClass extends AppCompatActivity{
         // get movies in watchlist
         SharedPreferences prefs = this.getSharedPreferences("settings",this.MODE_PRIVATE);
         String savedMovie = prefs.getString("movies", "");
-        // put all movies in array by splitting on the separator
         String[] savedMovies = savedMovie.split("\\*");
-        // add movies to arraylist to display in listview
+
         ArrayList<String> movies = new ArrayList<>(Arrays.asList(savedMovies));
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, movies);
         moviesList.setAdapter(adapter);

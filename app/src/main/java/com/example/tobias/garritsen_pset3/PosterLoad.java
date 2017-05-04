@@ -11,7 +11,7 @@ import java.net.URL;
  * Created by Tobias on 3-5-2017.
  */
 
-public class PosterLoad {
+public class PosterLoad extends AsyncTask<String, Bitmap, Bitmap>{
 
     String posterURL;
 
