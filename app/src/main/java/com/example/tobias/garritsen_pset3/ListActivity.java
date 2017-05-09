@@ -34,19 +34,34 @@ public class ListActivity extends AppCompatActivity {
         assert viewList != null;
         viewList.setAdapter(arrayAdapter);
 
-        viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            // get page of movie by clicking on one of the movie names
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                TextView titleView = (TextView) view;
-                String title = titleView.getText().toString();
-                Intent i = new Intent(getApplicationContext(), OutputActivity.class);
-                i.putExtra("title", title);
-                // to display the right button since a movie on watchlist shouldn't be added again
-                startActivity(i);
-                finish();
-            }
-        });
+        AdapterView.OnItemClickListener moviesListener = new MoviesListener();
+
+        viewList.setOnItemClickListener(moviesListener);
+
+//        viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            // get page of movie by clicking on one of the movie names
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                TextView titleView = (TextView) view;
+//                String title = titleView.getText().toString();
+//                Intent i = new Intent(getApplicationContext(), OutputActivity.class);
+//                i.putExtra("title", title);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
+    }
+
+    private class MoviesListener implements AdapterView.OnItemClickListener {
+        // get page of movie by clicking on one of the movie names
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            TextView titleView = (TextView) view;
+            String title = titleView.getText().toString();
+            Intent i = new Intent(getApplicationContext(), OutputActivity.class);
+            i.putExtra("title", title);
+            startActivity(i);
+            finish();
+        }
     }
 
 }

@@ -54,13 +54,11 @@ public class OutputActivity extends AppCompatActivity {
                             String runtime, String plot, String actors){
         TextView titleV = (TextView) findViewById(R.id.foundMovie);
         TextView yearV = (TextView) findViewById(R.id.year);
-        TextView posterV = (TextView) findViewById(R.id.poster);
         TextView runtimeV = (TextView) findViewById(R.id.runtime);
         TextView actorsV = (TextView) findViewById(R.id.actors);
         TextView plotV = (TextView) findViewById(R.id.plot);
         titleV.setText(title);
         yearV.setText(year);
-        posterV.setText(posterUrl);
         runtimeV.setText(runtime);
         actorsV.setText(actors);
         plotV.setText(plot);
@@ -129,11 +127,16 @@ public class OutputActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("settings", this.MODE_APPEND);
         SharedPreferences.Editor editor = prefs.edit();
         String savedMovies = prefs.getString("movies", "");
-        // add movie that been saved with seperator
-        String movieNames = savedMovies + name + '*';
-        editor.putString("movies", movieNames);
-        editor.commit();
-        Toast.makeText(this, "Movie added to favorites", Toast.LENGTH_SHORT).show();
+
+        if (!savedMovies.contains(name)){
+            // add movie that been saved with seperator
+            String movieNames = savedMovies + name + '*';
+            editor.putString("movies", movieNames);
+            editor.commit();
+            Toast.makeText(this, "Movie added to favorites", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Movie already added to favorites", Toast.LENGTH_SHORT).show();
+        }
 
         Intent i = new Intent(this, FavoriteMovies.class);
         this.startActivity(i);

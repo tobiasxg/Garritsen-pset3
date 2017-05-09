@@ -2,6 +2,7 @@ package com.example.tobias.garritsen_pset3;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,20 +39,36 @@ public class FavoriteMovies extends AppCompatActivity {
         assert viewList != null;
         viewList.setAdapter(adapter);
 
-        viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            // get page of movie by clicking on one of the movie names
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                TextView titleView = (TextView) view;
-                String title = titleView.getText().toString();
-                Intent i = new Intent(getApplicationContext(), OutputActivity.class);
-                i.putExtra("title", title);
-                // to display the right button since a movie on watchlist shouldn't be added again
-                startActivity(i);
-                finish();
-            }
-        });
+        AdapterView.OnItemClickListener favListener = new FavListener();
 
+        // not anonymous listener
+        // set items on views, not on the liste
+        viewList.setOnItemClickListener(favListener);
+//        viewList.setOnitemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            // get page of movie by clicking on one of the movie names
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                TextView titleView = (TextView) view;
+//                String title = titleView.getText().toString();
+//                Intent i = new Intent(getApplicationContext(), OutputActivity.class);
+//                i.putExtra("title", title);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
+
+    }
+
+    private class FavListener implements AdapterView.OnItemClickListener {
+        // get page of movie by clicking on one of the movie names
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            TextView titleView = (TextView) view;
+            String title = titleView.getText().toString();
+            Intent i = new Intent(getApplicationContext(), OutputActivity.class);
+            i.putExtra("title", title);
+            startActivity(i);
+            finish();
+        }
     }
 
 }
